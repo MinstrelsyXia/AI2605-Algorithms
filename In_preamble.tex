@@ -1,0 +1,89 @@
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{\slshape{Charlotte Xia}}
+
+% theorems
+\usepackage{thmtools}
+\usepackage{thm-restate}
+\usepackage[framemethod=TikZ]{mdframed}
+\mdfsetup{skipabove=1em,skipbelow=0em, innertopmargin=12pt, innerbottommargin=8pt}
+
+\theoremstyle{definition}
+
+\declaretheoremstyle[headfont=\bfseries\sffamily, bodyfont=\normalfont,
+	mdframed={
+		nobreak,
+		backgroundcolor=brown!14,
+		topline=false,
+		rightline=false,
+		leftline=true,
+		bottomline=false,
+		linewidth=2pt,
+		linecolor=brown!180,
+	}
+]{thmbrownbox}
+
+\declaretheoremstyle[headfont=\bfseries\sffamily, bodyfont=\normalfont,
+	mdframed={
+		nobreak,
+		backgroundcolor=Blue!4,
+		topline=false,
+		rightline=false,
+		leftline=true,
+		bottomline=false,
+		linewidth=2pt,
+		linecolor=NavyBlue!120,
+	}
+]{thmbluebox}
+
+\declaretheoremstyle[headfont=\bfseries\sffamily, bodyfont=\normalfont,
+	mdframed={
+		nobreak,
+		backgroundcolor=Green!5,
+		topline=false,
+		rightline=false,
+		leftline=true,
+		bottomline=false,
+		linewidth=2pt,
+		linecolor=OliveGreen!120,
+	}
+]{thmgreenbox}
+
+\declaretheoremstyle[headfont=\bfseries\sffamily, bodyfont=\normalfont,
+	mdframed={
+		nobreak,
+		topline=false,
+		rightline=false,
+		leftline=true,
+		bottomline=false,
+		linewidth=2pt,
+		linecolor=OliveGreen!120,
+	}
+]{thmgreenline}
+
+\declaretheoremstyle[headfont=\bfseries\sffamily, bodyfont=\normalfont,
+	mdframed={
+		nobreak,
+		topline=false,
+		rightline=false,
+		leftline=true,
+		bottomline=false,
+		linewidth=2pt,
+		linecolor=NavyBlue!70,
+	}
+]{thmblueline}
+
+\declaretheorem[numberwithin=section, style=thmbrownbox, name={\color{Brown}Definition}]{defi}
+\declaretheorem[numberwithin=section, style=thmgreenbox, name={\color{OliveGreen}Law}]{law}
+\declaretheorem[numberwithin=section, style=thmbluebox, name={\color{Blue}Corollary}]{cor}
+% 可以由Theorem直接推出来的东西
+\declaretheorem[numberwithin=section, style=thmgreenline, name={\color{OliveGreen}Property}]{prt} 
+\declaretheorem[numberwithin=section, style=thmbluebox, name={\color{Blue}Proposition}]{prp} 
+% 一个比较特例的内容，它可能只对我们这篇文章里面的东西有用，也许是某个一般性性质的特殊应用，也许是专门要计算这么一部分内容，总之不一定适合给别人引用，没有稍微宽一点的普适性（但是Lemma可以有）。感觉是比较综合Lemma，Corollary和Remark的性质。
+\declaretheorem[numberwithin=section, style=thmbluebox, name={\color{Blue}Theorem}]{thm} 
+% 全文中最重要的（几个）内容，我写这篇文章就是要告诉读者这件事。也可以是某一章最重要的内容，说这一章我们就干这件事了，放在全文可能是main Theorem的一步。
+\declaretheorem[numberwithin=section, style=thmbluebox, name={\color{Blue}Lemma}]{lemma}
+% 和Theorem比没有那么重要，但是对于我们现在关注的Theorem有直接的作用，比如是拆解Theorem成几个不同的方向，后面要合起来，方便读者理解。
+\declaretheorem[numberwithin=section, style=thmbrownbox,  name={\color{NavyBrown}Example}]{eg}
+\declaretheorem[numberwithin=section, style=thmgreenline, name={\color{OliveGreen}Remark}]{remark}
+\declaretheorem[numbered=no,style=thmblueline, name={\color{NavyBlue!70}Proof},qed=$\square$]{prf}
