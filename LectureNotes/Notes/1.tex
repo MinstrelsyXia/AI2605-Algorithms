@@ -1,0 +1,201 @@
+\section{Fibnacci Problem}
+\subsection{Problem Description}
+The well known Fibnacci Problem is defined as follows:
+% usage of \[ and \] is preferred over $$ and $$, see https://tex.stackexchange.com/questions/503/why-is-preferable-to
+\begin{defi}
+\begin{equation}
+F_n = 
+\begin{cases}
+\begin{aligned}
+    F_{n-1}+& F_{n-2} & \text{if } n > 1 \\
+    &1  & \text{if } n = 1 \\
+    &0  & \text{if } n = 0
+\end{aligned}
+\end{cases}
+\label{eq:Fn}
+\end{equation}
+\end{defi}
+\subsection{Solution}
+\subsubsection{Naive Case and Time Complexity}
+Intuitively, we count the next number by adding the previous two numbers.
+\begin{algorithm}
+    \caption{fib1(n)}
+    if n=0: return 0\\
+    if n=1: return 1\\
+    return fib1(n-1)+fib1(n-2)
+    \end{algorithm}
+
+However, it has an exponential time complexity.
+
+% 斜体lemma
+\begin{lemma}
+    $T_{n} > F_{n}$ ,where $T_{n}$ stands for the steps needed to calculate $F_{n}$.
+\end{lemma}
+
+\begin{prf}
+    Firstly, we have:
+    \[
+        T(n) = T(n-1) + T(n-2) + 3 \textbf{ for }n > 1
+        \]
+        where 3 extra steps are needed for 2 'if' judgements and the addition operation.\\
+    In the Base Step, for $n=0$, we have $T_0 = 1 > 0 = F_0$, and for $n=1$, we have $T_1 = 2 > 1 = F_1$.\\
+In the Inductive Step, suppose $T_i > F_i$ for $i = 1, 2, \ldots, n$.
+\begin{align*}
+    T_{n+1} &= T_n + T_{n-1} + 3 \\
+    &> F_n + F_{n-1} + 3 \quad (\text{induction hypothesis}) \\
+    &= F_{n+1} + 3 \\
+    &> F_{n+1}.
+    \end{align*}
+    Therefore, by mathematical induction, we have proved that $T_n > F_n$  $ \forall n \in N$.
+\end{prf}
+
+Furthermore, according to, $F_n=2^{0.694n}=1.6^{n}$, which gives out an exponential time complexity.
+
+\subsubsection{Dynamic Programming and Big Number Addition}
+We notice that every time we calculate $F_n$, we have to recalculate $F_{n-1}$ and $F_{n-2}$, which is a waste of time. 
+By creating an array to store the past values, we've come with an polynomial solution ,where approximately, every $T_n$ is obtained by the one step addition of $T_{n-1} \text{ and } T_{n-2} $.
+
+However, when $n$ is large enough, the number of digits of $F_n$ will exceed the maximum number of digits that a computer can store(eg. 64 digits), which brings out the problem of big number addition.
+At present we assume that adding two n-digit numbers produces complexity of $O(n)$, with $O(\log n)$ methods displayed in %\ref{}.
+Therefore, for $n > 200$, consider $T_{\frac{n}{2}} > 2^{0.694\times100} $ . Adding $T_{n-1}$ and $T_{n}$ takes $O(n)$ time. In total, T(n) takes $O(n^{2})$ time.
+\begin{algorithm}
+    \caption{fib2(n)}
+    create an array f[0$\dots$ n]\\
+    f[0] = 0, f[1] = 1\\
+    \ForAll{i $\geq$ 2}{$f[i]=f[i-1]+f[i-2]$}
+\end{algorithm}
+
+\subsubsection{Matrix Multiplication and Fast Power Algorithm}
+We can rewrite \eqref{eq:Fn} as:
+\[
+\begin{bmatrix}    
+F_{n}\\
+F_{n+1}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    0 & 1\\
+    1 & 1\\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    F_{n-1}\\
+    F_{n}\\
+\end{bmatrix},
+\]
+which implies
+\[
+\begin{bmatrix}    
+F_{n}\\
+F_{n+1}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    0 & 1\\
+    1 & 1\\
+\end{bmatrix}^{n}
+\cdot
+\begin{bmatrix}
+F_{0}\\
+F_{1}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    0 & 1\\
+    1 & 1\\
+\end{bmatrix}^{n}
+\cdot
+\begin{bmatrix}
+0\\
+1\\
+\end{bmatrix}
+\]
+Therefore, it only remains to compute $T^n$ for 
+\[T=\begin{bmatrix}
+    0 & 1\\
+    1 & 1\\
+\end{bmatrix},
+T_n=\begin{bmatrix}
+    t_{11} & t_{12}\\
+    t_{21} & t_{22}\\
+\end{bmatrix}
+\].
+Let $M(n),A(n)$ be the time complexity for computing the multiplication and addition of two n-bit integers respectively. Notice that $M(n) \geq n$, as we at least need to read the inputs.
+We have seen $A(n)=O(n)$. Therefore, $M(n)=\Omega(A(n))$.
+
+We will design an algorithm to compute $T^{n}$ and analyze the time complexity in terms of $M(n)$.
+
+Let $k=\lceil \log_2 n \rceil $. We will compute all the $k+1$ matrices $T^{2^0}$, $T^{2^1}$, $\ldots$, $T^{2^k}$. Let $a_k a_{k-1} \cdots a_1a_0$ be the binary representation of k. It is easy to see that
+\begin{equation}
+    T^n=\prod_{i:a_i=1}^{k} T^{2^i} 
+    \label{eq:T}
+\end{equation}
+
+The algorithm for computing $T^{n}$ is thus split into two steps:
+\begin{enumerate}
+    \item Compute $T^{2^i}$ for $i=0,1,\ldots,k$.
+    \item Compute the product by \eqref{eq:T}.
+\end{enumerate}
+
+\textbf{Time Complexity for Step 1.} Notice that it requires only one matrix multiplication to get $T^{2^(i+1)}$ from $T^{2^{i}}$ if we've computed $T^{2^i}$, namely, $T^{2^{i+1}}=(T^{2^i})\times T^{2^i}$.
+Now we analyze the time complexity for this multiplication by investigating the length of the for integers in $T^{2^i}$.
+\begin{lemma}
+    The length of the integers in $T^{2^i}$ is at most $2^{i+1}-1$.
+\end{lemma}
+\begin{prf}
+    For the base step, if $i=0$, then $T^{2^0}=T^{1}=T$. The elements in $T$ are less than $2^{1}-1=1$.\\
+    For the induction step, suppose the lemma holds for $i-1(i>2)$, then $T^{2^i}=(T^{2^{i-1}})\times T^{2^{i-1}}$. 
+    Since th length of product of m-digit number and n-digit number is less than $m+n-1$,
+    the length of element t in T is less than $(2^i-1) + (2^i-1)-1 = 2^{i+1}-3 < 2^{i+1}-1$.
+\end{prf}
+
+Since multiplying two $2 \times 2$ matrices requires 8 integer multiplications and 4 integer additions, 
+and $M(n) = \Omega(A(n))$, computing $T^{2^{i+1}}$ from $T^{2^i}$ has complexity bounded by $c \cdot M(2^{i+1} -1) \leq c \cdot M(2^{i+1})$ for some constant $c > 0$. Therefore, the overall time complexity for Step 1 is
+\begin{equation}
+    \label{eq:step1}
+    c \cdot (M(2^2) + M(2^3) + \ldots + M(2^{2k+1}))
+\end{equation}
+
+\begin{lemma}
+    For $i=2,3,\ldots,k$, $M(2^{i+1}) \geq 2M(2^i)$
+\end{lemma}
+\begin{prf}
+To see this intuitively (although the following argument is not rigorous), if otherwise, we will have
+\[M(2^i) < 2M(2^{i-1}) < 4M(2^{i-2}) < \ldots < 2^iM(1) = 2^i,\]
+which contradicts $M(n) \geq n$ as mentioned earlier.
+\end{prf}
+
+Therefore, we have \[M(2^{k+1}) \geq 2^1M(2^{k}) \geq 2^2M(2^{k-1})\cdots \geq 2^iM(2^{k-i+1}) \cdots \geq 2^{k-1}M(2^2)\]
+By dividing the inequation by $2^{k-i}$, and pluging k with $\lceil \log_2 n \rceil$, we have 
+\[ M(2^i)\leq \frac{1}{2^{k-i}}M(2^{k+1}) \leq \frac{1}{2^{k-i}}M(2n) \]
+the time complexity for \eqref{eq:step1} is
+\[c \cdot (M(2^2) + M(2^3) + \ldots + M(2^{2k+1})) \leq c \cdot M(2n) \left(1 + \frac{1}{2} + \frac{1}{4} + \ldots + \frac{1}{2^{k-1}}\right) = O(M(2n))\],
+where the last equality is due to the fact that $M(2n) \leq 4M(n)$ (even if we use naive grade school multiplication) and $1 + \frac{1}{2} + \frac{1}{4} + \ldots + \frac{1}{2k-1} < 2$.\\
+
+\textbf{Time Complexity for Step 2.} We will analyze the time complexity for computing
+\[
+\prod_{i=0}^{k} S_k := T^{2^i} \quad 
+\]
+We need $k$ matrix multiplications for $S_k$. Suppose we have computed $S_i := T^{2^0} \times T^{2^1} \times \ldots \times T^{2^i}$. Obviously, each entry of $S_i$ is dominated by $T^{2^i+1}$. 
+Thus, computing $S_{i+1} = S_i \times T^{2^{i+1}}$ requires at most $c \cdot M(2^{i+2})$ time. The overall time complexity for Step 2 is also at most
+\[
+c \cdot (M(2^2) + M(2^3) + \ldots + M(2^{2k+1})),
+\]
+which, by previous analysis, is $O(M(n))$.
+
+\textbf{Overall Time Complexity:} $O(M(n))$
+
+\begin{remark}
+ An Intuitive way to calculate the overall time complexity is to draw analogy between
+ \[1+2+2^2+\cdots+n<1+\cdots+2^{\left\lceil \log_2 n\right\rceil }=2^{\left\lceil \log_2 n\right\rceil +1}-1<2n
+    \]
+and
+ \[ M(2^2)+M(2^3)+\cdots+M(2^{k+1})\leq M(2^2)+\cdots +M(2n)
+    \] 
+\end{remark}
+
+
+
+
+
+    
