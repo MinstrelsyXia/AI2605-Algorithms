@@ -1,0 +1,63 @@
+\section{Linear Programming}
+
+\begin{enumerate}
+\item For Simplex Method, magically, average case polynomial time if add random Gaussian noise to the constraints. But with ellipsoid Method or Interior Point Method, it is polynomial time.
+\item A linear program can be solved in a polynomial time.
+\item Whenever a problem can be formulated by a linear
+program, it is polynomial-time solvable
+\end{enumerate}
+\subsection{Duality Problem}
+Use the linear combination of constraints to get the objective function.
+% x1+6x2<=(m1+m3)*x1+(m2+m3)*x2
+% m1+m3>1
+% m2+m3>6
+\begin{enumerate}
+    \item For \textbf{Weak Duality Theorem}, Primal $OPT < Dual OPT$
+    \item for \textbf{Strong Duality Theorem}, Primal OPT = Dual OPT. % see proof in slides-18
+    \item 
+\end{enumerate}
+
+Maximum matching 
+\[
+    maximize \sum_{e \in E} x_e(\uparrow x)\\
+    \sum_{e=(u,v) \in E}x_e\leq 1 (\forall u \in V)\\(Ax=b, A:incidence matrix,b:\uparrow) \text{for vertex u, at most one edge is selected:incidence matrix} \\
+    x_e\geq 0 \text{every edge will be selected only once}\\
+\]
+Consider a triangle case, the maximum matching is 1, but the maximum independent set is 2. 
+But by algorithm, for maximum matching and min vertex cover, edges(vertice) have 0.5, but is meaningless.
+minimum vertex cover
+\[
+    min  \sum{u\in V} x_u\\
+    x_u+x_v\geq 1
+    x_u\geq 0
+    \]
+The problem is, how to guarantee that the optim. sol. is int?
+\subsection{Strong LP-Duality and max-flow-min-cut}
+\begin{itemize}
+    \item LP for max-flow problem:
+    \[
+        \begin{aligned}
+        maximize & \sum_{v:(s,v)\in E} f(s,u) \\
+        f(u,v)&\leq c(u,v) &(y_{uv})   \\
+        \sum_{v:(v,u)\in E} f(v,u)-\sum_{w:(u,w)\in E} f(u,w)&\leq 0 &(z_u^+)\\
+        -\sum_{v:(v,u)\in E} f(v,u)+\sum_{w:(u,w)\in E} f(u,w)&\leq 0 &(z_u^-)\\
+        f(e)&\geq 0
+        \end{aligned}
+    \]
+    \item dual describes the \textbf{fractional} version of min-cut problem, denote $z_u=z_u^+-z_u^-$
+    \[
+        \begin{aligned}
+            minimize &\sum_{(s,u)\in E} c_{uv}y_{uv}\\
+        y_{su}+z_u&\geq 1\\
+        y_{vt}-z_v&\geq 0\\
+        y_{uv}-z_u+z_v&\geq 0 (u,v\in V \setminus\{ s,t\})\\
+        y_{uv}&\geq0
+        \end{aligned}
+    \]
+    \item dual program have \textbf{integral} optimum
+    Proven by totally unimodular matrix theorem.(discuss from whether no 1, one 1, -1 and 1 occurs in the matrix, maybe by induction)
+    If A is totally unimodular, then feasible solution of $Ax=b, x\geq 0$ is integral.
+
+    \item apply Strong Duality Theorem to show max-flow-min-cut
+    We will prove that $A$ is totally unimodular.
+\end{itemize}

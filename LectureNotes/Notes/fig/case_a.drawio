@@ -1,0 +1,31 @@
+<mxfile host="65bd71144e">
+    <diagram id="6KXN7SYaUY3vvuX6AVkp" name="第 1 页">
+        <mxGraphModel dx="592" dy="693" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="130" width="530" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;special homework&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
+                    <mxGeometry x="307.5" y="130" width="75" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="normal homework" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="200" width="110" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="normal homework" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="200" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="normal homework" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+                    <mxGeometry x="382.5" y="200" width="110" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="normal homework" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+                    <mxGeometry x="262.5" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="normal homework" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+                    <mxGeometry x="492.5" y="200" width="57.5" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
