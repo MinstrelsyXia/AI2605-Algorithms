@@ -13,3 +13,4 @@ As the writer's proficiency in both English and Algorithms is limited, any quest
 to-do:
 - [x] lecture notes and latex files for chapter1 and 2
 - [ ] FFT in chapter 3
+- [x] lecture notes and latex files for chapter 3-8
